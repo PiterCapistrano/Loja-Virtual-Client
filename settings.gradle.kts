@@ -9,6 +9,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        maven { setUrl ("https://artifacts.mercadolibre.com/repository/android-releases/") }
     }
 }
 dependencyResolutionManagement {
@@ -16,6 +17,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { setUrl ("https://artifacts.mercadolibre.com/repository/android-releases/") }
     }
 }
 
