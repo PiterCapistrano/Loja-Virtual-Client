@@ -6,6 +6,7 @@ import android.content.Intent // Importa a classe Intent para iniciar outras ati
 import android.graphics.Color // Importa a classe Color para manipulação de cores
 import android.os.Bundle // Importa a classe Bundle para passar dados entre atividades
 import android.os.Handler // Importa a classe Handler para agendar tarefas
+import android.os.Looper
 import android.util.Log
 import android.view.View // Importa a classe View para manipulação de elementos da interface
 import android.view.inputmethod.InputMethodManager
@@ -27,6 +28,7 @@ import com.pitercapistrano.applojavirtualclient.R
 import com.pitercapistrano.applojavirtualclient.activities.FormCadastro.FormCadastro
 import com.pitercapistrano.applojavirtualclient.activities.Home.Home
 import com.pitercapistrano.applojavirtualclient.databinding.ActivityFormLoginBinding
+import com.pitercapistrano.applojavirtualclient.dialog.DailogCarregando
 
 
 class FormLogin : AppCompatActivity() {
@@ -54,6 +56,8 @@ class FormLogin : AppCompatActivity() {
         window.statusBarColor = Color.parseColor("#000000")
         supportActionBar!!.hide()
 
+        val dialogCarregando = DailogCarregando(this)
+
         binding.txtCadastrar.setOnClickListener {
             val intent = Intent(this, FormCadastro::class.java)
             startActivity(intent)
@@ -73,11 +77,12 @@ class FormLogin : AppCompatActivity() {
             } else {
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email, senha).addOnCompleteListener {
                     if (it.isSuccessful) {
-
+                        dialogCarregando.iniciarCarregamentoAlertDialog()
                         binding.progressBar.visibility = View.VISIBLE
-                        Handler().postDelayed({
+                        Handler(Looper.getMainLooper()).postDelayed({
                             goToHome()
-                        }, 2000)
+                            dialogCarregando.liberarAlertDialog()
+                        }, 3000)
                     }
                 }.addOnFailureListener {
                     val snackbar = Snackbar.make(view, "Erro ao efetuar o login!", Snackbar.LENGTH_SHORT)
@@ -144,6 +149,7 @@ class FormLogin : AppCompatActivity() {
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    val dialogCarregando = DailogCarregando(this)
                     val user = FirebaseAuth.getInstance().currentUser
                     Log.d("LoginGoogle", "Login com Google bem-sucedido: ${user?.displayName}")
 
@@ -161,13 +167,14 @@ class FormLogin : AppCompatActivity() {
                                 Log.w("Firestore", "Error writing document", e)
                             }
                     }
+                    dialogCarregando.iniciarCarregamentoAlertDialog()
                     binding.progressBar.visibility = View.VISIBLE
                     Handler().postDelayed({
 
                         saveUserToFirestore(user)
-
+                        dialogCarregando.liberarAlertDialog()
                         goToHome()
-                    }, 1000)
+                    }, 3000)
                 } else {
                     Log.w("LoginGoogle", "Erro ao autenticar com Google", task.exception)
                     Toast.makeText(this, "Erro ao autenticar!", Toast.LENGTH_SHORT).show()
