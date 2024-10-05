@@ -8,4 +8,5 @@
     <string name="cadastro">Não tem uma conta? Cadastre-se agora!</string>
     <string name="txt_tela_cadastro">Faça seu Cadastro</string>
     <string name="cadastrar">Cadastrar</string>
+    <string name="google_server_client_id" translatable="false">884039011964-ophdlnt5vtnqon3mb3a25khb2ddd7qbl.apps.googleusercontent.com</string>
 </resources>

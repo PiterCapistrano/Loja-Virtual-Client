@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.pitercapistrano.applojavirtualclient" />
+                  <option name="mobileSdkAppId" value="1:884039011964:android:e973656334ab0e10d803f9" />
+                  <option name="projectId" value="loja-virtual-40d4c" />
+                  <option name="projectNumber" value="884039011964" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
