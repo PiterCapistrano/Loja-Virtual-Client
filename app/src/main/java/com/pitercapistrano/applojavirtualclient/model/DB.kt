@@ -17,7 +17,7 @@ class DB {
             "email" to email
         )
 
-        val documentReference: DocumentReference = db.collection("Usuários").document(usuarioID)
+        val documentReference: DocumentReference = db.collection("Usuarios").document(usuarioID)
         documentReference.set(usuarios).addOnSuccessListener {
             Log.d("DB", "Sucesso ao salvar os dados")
         }.addOnFailureListener {

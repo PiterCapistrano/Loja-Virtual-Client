@@ -8,7 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthEmailException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.pitercapistrano.applojavirtualclient.R
 import com.pitercapistrano.applojavirtualclient.databinding.ActivityFormCadastroBinding
 import com.pitercapistrano.applojavirtualclient.model.DB
@@ -48,7 +52,19 @@ class FormCadastro : AppCompatActivity() {
                     if (it.isSuccessful){
                         db.salvarDadosUsuario(nome, email,)
                         Toast.makeText(this, "Cadastro Realizado com Sucesso!", Toast.LENGTH_SHORT).show()
+                        finish()
                     }
+                }.addOnFailureListener { erroCadastro ->
+                    val mensagemErro = when(erroCadastro){
+                        is FirebaseAuthWeakPasswordException -> "Digite uma senha com no ménimo 6 caracteres!"
+                        is FirebaseAuthUserCollisionException -> "Essa conta já foi cadsatrada!"
+                        is FirebaseNetworkException -> "Sem conexão com a internet!"
+                        else -> "Erro ao cadastrar o usuário! Verifique se o E-mail é válido!"
+                    }
+                    val snackbar = Snackbar.make(it, mensagemErro,Snackbar.LENGTH_SHORT)
+                    snackbar.setBackgroundTint(Color.RED)
+                    snackbar.setTextColor(Color.WHITE)
+                    snackbar.show()
                 }
 
             }

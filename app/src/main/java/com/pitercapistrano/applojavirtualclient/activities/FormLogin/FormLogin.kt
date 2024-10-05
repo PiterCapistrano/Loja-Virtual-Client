@@ -1,6 +1,7 @@
 package com.pitercapistrano.applojavirtualclient.activities.FormLogin
 
 import android.app.Activity // Importa a classe Activity para interação com atividades do Android
+import android.content.ContentValues.TAG
 import android.content.Intent // Importa a classe Intent para iniciar outras atividades
 import android.graphics.Color // Importa a classe Color para manipulação de cores
 import android.os.Bundle // Importa a classe Bundle para passar dados entre atividades
@@ -16,12 +17,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn // Importa a classe G
 import com.google.android.gms.auth.api.signin.GoogleSignInClient // Importa a classe GoogleSignInClient para interagir com o cliente de login do Google
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions // Importa a classe GoogleSignInOptions para configurar opções de login do Google
 import com.google.android.gms.common.api.ApiException // Importa a classe ApiException para lidar com exceções de API
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth // Importa a classe FirebaseAuth para autenticação com Firebase
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider // Importa a classe GoogleAuthProvider para autenticação do Google com Firebase
 import com.google.firebase.firestore.FirebaseFirestore // Importa a classe FirebaseFirestore para manipulação de Firestore
 import com.pitercapistrano.applojavirtualclient.R
 import com.pitercapistrano.applojavirtualclient.activities.FormCadastro.FormCadastro
-import com.pitercapistrano.applojavirtualclient.activities.Home
+import com.pitercapistrano.applojavirtualclient.activities.Home.Home
 import com.pitercapistrano.applojavirtualclient.databinding.ActivityFormLoginBinding
 
 
@@ -29,6 +32,7 @@ class FormLogin : AppCompatActivity() {
 
     private lateinit var binding: ActivityFormLoginBinding
     private lateinit var googleSignInClient: GoogleSignInClient // Declara uma variável para o cliente de login do Google
+    private lateinit var mAuth: FirebaseAuth
 
     // Constantes usadas para identificar códigos de requisição
     companion object {
@@ -52,6 +56,25 @@ class FormLogin : AppCompatActivity() {
         binding.txtCadastrar.setOnClickListener {
             val intent = Intent(this, FormCadastro::class.java)
             startActivity(intent)
+        }
+
+        binding.btEntrar.setOnClickListener {
+            val email = binding.editEmail.text.toString()
+            val senha = binding.editSenha.text.toString()
+
+            if (email.isEmpty() || senha.isEmpty()){
+                val snackbar = Snackbar.make(it, "Preencha Todos os Campos!", Snackbar.LENGTH_SHORT)
+                snackbar.setBackgroundTint(Color.RED)
+                snackbar.setTextColor(Color.WHITE)
+                snackbar.show()
+            } else {
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, senha).addOnCompleteListener {
+                    if (it.isSuccessful){
+                        goToHome()
+                        finish()
+                    }
+                }
+            }
         }
 
         // Configura as opções de login com Google, solicitando ID e email
@@ -118,7 +141,7 @@ class FormLogin : AppCompatActivity() {
                         val userId = user.uid
                         val userMap = hashMapOf("name" to displayName)
 
-                        db.collection("Users").document(userId).set(userMap)
+                        db.collection("Usuarios").document(userId).set(userMap)
                             .addOnSuccessListener {
                                 Log.d("Firestore", "DocumentSnapshot successfully written!")
                             }
@@ -128,6 +151,9 @@ class FormLogin : AppCompatActivity() {
                     }
                     binding.progressBar.visibility = View.VISIBLE
                     Handler().postDelayed({
+
+                        saveUserToFirestore(user)
+
                         goToHome()
                     }, 1000)
                 } else {
@@ -136,4 +162,29 @@ class FormLogin : AppCompatActivity() {
                 }
             }
     }
+
+    // Função para salvar os dados do usuário no Firestore
+    private fun saveUserToFirestore(user: FirebaseUser?) {
+        val db = FirebaseFirestore.getInstance() // Obtém uma instância do Firestore
+
+        // Cria um mapa para armazenar os dados do usuário
+        val userMap = hashMapOf(
+            "nome" to user?.displayName, // Armazena o nome do usuário
+            "email" to user?.email, // Armazena o e-mail do usuário
+            "foto" to (user?.photoUrl?.toString() ?: "") // Armazena a URL da foto do usuário ou uma string vazia
+        )
+
+        // Salva os dados no Firestore com o ID do usuário
+        user?.uid?.let {
+            db.collection("Usuarios").document(it) // Referencia a coleção de usuários
+                .set(userMap) // Salva os dados do usuário
+                .addOnSuccessListener {
+                    Log.d(TAG, "Dados do usuário salvos no Firestore.") // Log de sucesso
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Erro ao salvar dados do usuário.", e) // Log de erro
+                }
+        }
+    }
+
 }
