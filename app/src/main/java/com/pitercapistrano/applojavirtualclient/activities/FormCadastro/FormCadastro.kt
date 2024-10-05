@@ -2,6 +2,7 @@ package com.pitercapistrano.applojavirtualclient.activities.FormCadastro
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -41,6 +42,8 @@ class FormCadastro : AppCompatActivity() {
             val nome = binding.editNome.text.toString()
             val email = binding.editEmail.text.toString()
             val senha = binding.editSenha.text.toString()
+            val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
             if (nome.isEmpty() || email.isEmpty() || senha.isEmpty()){
                 val snackbar = Snackbar.make(it, "Preencha Todos os Campos!",Snackbar.LENGTH_SHORT)

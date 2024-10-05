@@ -8,6 +8,7 @@ import android.os.Bundle // Importa a classe Bundle para passar dados entre ativ
 import android.os.Handler // Importa a classe Handler para agendar tarefas
 import android.util.Log
 import android.view.View // Importa a classe View para manipulação de elementos da interface
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast // Importa a classe Toast para exibir mensagens curtas
 import androidx.activity.enableEdgeToEdge // Permite a interface de tela cheia
 import androidx.appcompat.app.AppCompatActivity // Importa a classe AppCompatActivity para compatibilidade de recursos
@@ -58,21 +59,31 @@ class FormLogin : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.btEntrar.setOnClickListener {
+        binding.btEntrar.setOnClickListener {view ->
             val email = binding.editEmail.text.toString()
             val senha = binding.editSenha.text.toString()
+            val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
             if (email.isEmpty() || senha.isEmpty()){
-                val snackbar = Snackbar.make(it, "Preencha Todos os Campos!", Snackbar.LENGTH_SHORT)
+                val snackbar = Snackbar.make(view, "Preencha Todos os Campos!", Snackbar.LENGTH_SHORT)
                 snackbar.setBackgroundTint(Color.RED)
                 snackbar.setTextColor(Color.WHITE)
                 snackbar.show()
             } else {
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, senha).addOnCompleteListener {
-                    if (it.isSuccessful){
-                        goToHome()
-                        finish()
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(email, senha).addOnCompleteListener {
+                    if (it.isSuccessful) {
+
+                        binding.progressBar.visibility = View.VISIBLE
+                        Handler().postDelayed({
+                            goToHome()
+                        }, 2000)
                     }
+                }.addOnFailureListener {
+                    val snackbar = Snackbar.make(view, "Erro ao efetuar o login!", Snackbar.LENGTH_SHORT)
+                    snackbar.setBackgroundTint(Color.RED)
+                    snackbar.setTextColor(Color.WHITE)
+                    snackbar.show()
                 }
             }
         }
@@ -99,6 +110,7 @@ class FormLogin : AppCompatActivity() {
     private fun goToHome() {
         val intent = Intent(this, Home::class.java)  // Cria um Intent para a Home
         startActivity(intent) // Inicia a Activity Home
+        Toast.makeText(this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT).show() // Exibe mensagem de sucesso
         finish()  // Fecha a Activity de login
     }
 
