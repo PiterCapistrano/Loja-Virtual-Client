@@ -28,7 +28,7 @@ import com.pitercapistrano.applojavirtualclient.R
 import com.pitercapistrano.applojavirtualclient.activities.FormCadastro.FormCadastro
 import com.pitercapistrano.applojavirtualclient.activities.Home.Home
 import com.pitercapistrano.applojavirtualclient.databinding.ActivityFormLoginBinding
-import com.pitercapistrano.applojavirtualclient.dialog.DailogCarregando
+import com.pitercapistrano.applojavirtualclient.dialog.DialogCarregando
 
 
 class FormLogin : AppCompatActivity() {
@@ -56,7 +56,7 @@ class FormLogin : AppCompatActivity() {
         window.statusBarColor = Color.parseColor("#000000")
         supportActionBar!!.hide()
 
-        val dialogCarregando = DailogCarregando(this)
+        val dialogCarregando = DialogCarregando(this)
 
         binding.txtCadastrar.setOnClickListener {
             val intent = Intent(this, FormCadastro::class.java)
@@ -149,7 +149,7 @@ class FormLogin : AppCompatActivity() {
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val dialogCarregando = DailogCarregando(this)
+                    val dialogCarregando = DialogCarregando(this)
                     val user = FirebaseAuth.getInstance().currentUser
                     Log.d("LoginGoogle", "Login com Google bem-sucedido: ${user?.displayName}")
 

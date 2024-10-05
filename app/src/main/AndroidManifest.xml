@@ -15,7 +15,7 @@
         android:theme="@style/Theme.AppLojaVirtualClient"
         tools:targetApi="31">
         <activity
-            android:name=".dialog.DailogCarregando"
+            android:name=".dialog.DialogCarregando"
             android:exported="false" />
         <activity
             android:name=".activities.Home.Home"
