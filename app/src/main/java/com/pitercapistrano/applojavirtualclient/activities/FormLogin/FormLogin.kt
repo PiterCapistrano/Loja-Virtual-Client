@@ -109,13 +109,18 @@ class FormLogin : AppCompatActivity() {
         }
     }
 
-
+    override fun onStart() {
+        super.onStart()
+        val usuarioAtual = FirebaseAuth.getInstance().currentUser
+        if (usuarioAtual != null){
+            goToHome()
+        }
+    }
 
     // Método que redireciona o usuário para a Activity Home
     private fun goToHome() {
         val intent = Intent(this, Home::class.java)  // Cria um Intent para a Home
         startActivity(intent) // Inicia a Activity Home
-        Toast.makeText(this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT).show() // Exibe mensagem de sucesso
         finish()  // Fecha a Activity de login
     }
 
@@ -151,6 +156,7 @@ class FormLogin : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val dialogCarregando = DialogCarregando(this)
                     val user = FirebaseAuth.getInstance().currentUser
+                    Toast.makeText(this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT).show() // Exibe mensagem de sucesso
                     Log.d("LoginGoogle", "Login com Google bem-sucedido: ${user?.displayName}")
 
                     // Salvando o usuário no Firestore
