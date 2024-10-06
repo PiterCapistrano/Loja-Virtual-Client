@@ -49,11 +49,6 @@ class DialogPerfil(private val activity: Activity) {
             }
         }
 
-        binding.btAtualizarFoto.setOnClickListener {
-            val intent = Intent(activity, EditarPerfil::class.java)
-            activity.startActivity(intent)
-        }
-
         // Função de logout
         binding.btSair.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
