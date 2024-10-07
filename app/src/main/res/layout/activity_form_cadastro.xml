@@ -27,14 +27,42 @@
     android:layout_marginTop="50dp"
     />
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_perfil"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTelaCadastro"
+        android:layout_marginTop="10dp"
+        />
+
+    <Button
+        android:id="@+id/bt_atualizar_foto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selecione uma Foto"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:backgroundTint="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@+id/img_perfil"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        />
+
     <View
         android:id="@+id/viewCadastro"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="360dp"
         android:background="@drawable/container_formularios"
-        app:layout_constraintTop_toBottomOf="@+id/txtTelaCadastro"
+        app:layout_constraintTop_toBottomOf="@+id/bt_atualizar_foto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
         android:layout_margin="20dp"
         />
 
@@ -57,6 +85,8 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         />
+
+
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/editEmail"
@@ -97,6 +127,47 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         />
+    <ImageView
+        android:id="@+id/mostrarSenha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_show"
+        app:layout_constraintEnd_toEndOf="@+id/editSenha"
+        app:layout_constraintTop_toTopOf="@+id/editSenha"
+        app:layout_constraintBottom_toBottomOf="@+id/editSenha"
+        android:layout_marginEnd="10dp"
+        />
+
+    <EditText
+        android:id="@+id/editConfirmarSenha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/confirmar_senha"
+        android:text=""
+        android:inputType="textPassword"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:background="@drawable/edit_shape"
+        android:maxLines="1"
+        android:padding="15sp"
+        app:layout_constraintTop_toBottomOf="@+id/editSenha"
+        app:layout_constraintStart_toStartOf="@+id/viewCadastro"
+        app:layout_constraintEnd_toEndOf="@+id/viewCadastro"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        />
+
+    <ImageView
+        android:id="@+id/mostrarConfirmarSenha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_show"
+        app:layout_constraintEnd_toEndOf="@+id/editConfirmarSenha"
+        app:layout_constraintTop_toTopOf="@+id/editConfirmarSenha"
+        app:layout_constraintBottom_toBottomOf="@+id/editConfirmarSenha"
+        android:layout_marginEnd="10dp"
+        />
 
     <Button
         android:id="@+id/btCadastrar"
@@ -108,7 +179,7 @@
         android:textSize="18sp"
         android:backgroundTint="@color/black"
         android:padding="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/editSenha"
+        app:layout_constraintTop_toBottomOf="@+id/editConfirmarSenha"
         app:layout_constraintStart_toStartOf="@+id/viewCadastro"
         app:layout_constraintEnd_toEndOf="@+id/viewCadastro"
         android:layout_marginTop="20dp"
