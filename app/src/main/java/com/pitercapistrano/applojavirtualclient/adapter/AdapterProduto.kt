@@ -30,6 +30,9 @@ class AdapterProduto(val context: Context, val lista_produtos: MutableList<Produ
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetalhesProduto::class.java)
+            intent.putExtra("foto", lista_produtos.get(position).foto)
+            intent.putExtra("nome", lista_produtos.get(position).nome)
+            intent.putExtra("preco", lista_produtos.get(position).preco)
             context.startActivity(intent)
         }
     }
