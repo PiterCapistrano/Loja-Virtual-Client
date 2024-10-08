@@ -20,14 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:src="@drawable/ic_launcher_background"
-        android:scaleType="centerCrop"
-        />
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/nomeProdutoDt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sapato de Couro"
+        android:text=""
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -53,36 +52,66 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="38"
-            android:layout_marginEnd="5dp"
+            android:text="@string/tamanho_38"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@drawable/radio_text_color"
+            android:background="@drawable/radio_selector"
+            android:button="@color/transparent"
+            android:layout_marginEnd="10dp"
             />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="39"
-            android:layout_marginEnd="5dp"
+            android:text="@string/tamanho_39"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@drawable/radio_text_color"
+            android:background="@drawable/radio_selector"
+            android:button="@color/transparent"
+            android:layout_marginEnd="10dp"
             />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="40"
-            android:layout_marginEnd="5dp"
+            android:text="@string/tamanho_40"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@drawable/radio_text_color"
+            android:background="@drawable/radio_selector"
+            android:button="@color/transparent"
+            android:layout_marginEnd="10dp"
             />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="41"
-            android:layout_marginEnd="5dp"
+            android:text="@string/tamanho_41"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@drawable/radio_text_color"
+            android:background="@drawable/radio_selector"
+            android:button="@color/transparent"
+            android:layout_marginEnd="10dp"
             />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="42"
-
+            android:text="@string/tamanho_42"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@drawable/radio_text_color"
+            android:background="@drawable/radio_selector"
+            android:button="@color/transparent"
+            android:layout_marginEnd="10dp"
             />
 
     </RadioGroup>
@@ -101,7 +130,7 @@
         android:id="@+id/precoProdutoDt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="R$ 179.90"
+        android:text=""
         android:textSize="25sp"
         android:textStyle="bold"
         android:textColor="@android:color/holo_green_dark"

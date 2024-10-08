@@ -19,5 +19,11 @@
     <string name="escolha_tamanho">Escolha o Tamanho</string>
     <string name="preco">Preço:</string>
     <string name="finalizar_pedido">Finalizar Pedido</string>
+    <string name="tamanho_38">38</string>
+    <string name="tamanho_39">39</string>
+    <string name="tamanho_40">40</string>
+    <string name="tamanho_41">41</string>
+    <string name="tamanho_42">42</string>
+
 
 </resources>
