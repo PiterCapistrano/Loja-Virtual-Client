@@ -9,15 +9,21 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.pitercapistrano.applojavirtualclient.R
 import com.pitercapistrano.applojavirtualclient.activities.FormLogin.FormLogin
+import com.pitercapistrano.applojavirtualclient.adapter.AdapterProduto
 import com.pitercapistrano.applojavirtualclient.databinding.ActivityHomeBinding
 import com.pitercapistrano.applojavirtualclient.dialog.DialogPerfil
+import com.pitercapistrano.applojavirtualclient.model.DB
+import com.pitercapistrano.applojavirtualclient.model.Produto
 
 class Home : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHomeBinding
+    lateinit var binding: ActivityHomeBinding
+    lateinit var adapterProduto: AdapterProduto
+    var listaProdutos: MutableList<Produto> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +35,18 @@ class Home : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val recyclerProdutos = binding.recyclerProdutos
+        recyclerProdutos.layoutManager = GridLayoutManager(this, 2)
+        recyclerProdutos.setHasFixedSize(true)
+        adapterProduto = AdapterProduto(this, listaProdutos)
+        recyclerProdutos.adapter = adapterProduto
+
+        val db = DB()
+        db.obterListaProdutos(listaProdutos, adapterProduto)
+
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_principal, menu)

@@ -5,6 +5,8 @@ import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
+import com.pitercapistrano.applojavirtualclient.adapter.AdapterProduto
 
 class DB {
 
@@ -38,5 +40,19 @@ class DB {
                 emailPerfil.text = email
             }
         }
+    }
+
+    fun  obterListaProdutos(lista_produtos: MutableList<Produto>, adapterProduto: AdapterProduto){
+        val db = FirebaseFirestore.getInstance()
+        db.collection("Produtos").get()
+            .addOnCompleteListener { tarefa ->
+                if (tarefa.isSuccessful) {
+                    for (documento in tarefa.result!!){
+                        val produto = documento.toObject(Produto::class.java)
+                        lista_produtos.add(produto)
+                        adapterProduto.notifyDataSetChanged()
+                    }
+                }
+            }
     }
 }
