@@ -16,5 +16,8 @@
     <string name="selecionar_foto">Selecione uma Foto</string>
     <string name="atualizar">Atualizar Perfil</string>
     <string name="sair">Sair</string>
+    <string name="escolha_tamanho">Escolha o Tamanho</string>
+    <string name="preco">Preço:</string>
+    <string name="finalizar_pedido">Finalizar Pedido</string>
 
 </resources>
