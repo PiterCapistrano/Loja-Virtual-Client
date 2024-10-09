@@ -24,6 +24,14 @@
     <string name="tamanho_40">40</string>
     <string name="tamanho_41">41</string>
     <string name="tamanho_42">42</string>
-
+    <string name="txt_endereco">Preencha todos os campos antes \n de fazer o pagamento!</string>
+    <string name="cep">CEP</string>
+    <string name="pesquisar_cep">Pesquisar CEP</string>
+    <string name="bairro">Bairro</string>
+    <string name="rua">Rua e Número</string>
+    <string name="cidade_estado">Cidade e Estado</string>
+    <string name="complemento">Complemento</string>
+    <string name="telefone">telefone</string>
+    <string name="bt_pagamento">Fazer Pagamento</string>
 
 </resources>

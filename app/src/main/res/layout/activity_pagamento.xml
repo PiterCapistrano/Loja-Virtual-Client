@@ -1,10 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+<LinearLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.Pagamento.Pagamento">
+    tools:context=".activities.Pagamento.Pagamento"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_endereco"
+        android:textSize="23sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+    <EditText
+        android:id="@+id/cep"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/cep"
+        android:text=""
+        android:inputType="number"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:maxLines="1"
+        android:maxLength="8"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
+
+        <Button
+            android:id="@+id/bt_cep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pesquisar_cep"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:backgroundTint="@color/blue"
+            android:layout_marginTop="20dp"
+            />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/rua"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/rua"
+        android:text=""
+        android:inputType="text"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:maxLines="1"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
+
+    <EditText
+        android:id="@+id/bairro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/bairro"
+        android:text=""
+        android:inputType="text"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:maxLines="1"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
+
+    <EditText
+        android:id="@+id/cidade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/cidade_estado"
+        android:text=""
+        android:inputType="text"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:maxLines="1"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
+
+    <EditText
+        android:id="@+id/complemento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/complemento"
+        android:text=""
+        android:inputType="text"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:maxLines="1"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
+
+    <EditText
+        android:id="@+id/telefone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/telefone"
+        android:text=""
+        android:inputType="number"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:maxLines="1"
+        android:maxLength="11"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        />
+
+    <Button
+        android:id="@+id/bt_pagamento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bt_pagamento"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/blue"
+        android:padding="15dp"
+        android:layout_margin="20dp"
+        />
+
+</LinearLayout>
+</androidx.core.widget.NestedScrollView>
