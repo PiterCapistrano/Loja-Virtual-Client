@@ -50,6 +50,7 @@
         android:layout_marginTop="10dp">
 
         <RadioButton
+            android:id="@+id/tamanho38"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tamanho_38"
@@ -63,6 +64,7 @@
             />
 
         <RadioButton
+            android:id="@+id/tamanho39"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tamanho_39"
@@ -76,6 +78,7 @@
             />
 
         <RadioButton
+            android:id="@+id/tamanho40"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tamanho_40"
@@ -89,6 +92,7 @@
             />
 
         <RadioButton
+            android:id="@+id/tamanho41"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tamanho_41"
@@ -102,6 +106,7 @@
             />
 
         <RadioButton
+            android:id="@+id/tamanho42"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tamanho_42"
