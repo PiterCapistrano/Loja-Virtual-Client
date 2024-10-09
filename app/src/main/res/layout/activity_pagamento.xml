@@ -63,9 +63,15 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
     <EditText
         android:id="@+id/rua"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:hint="@string/rua"
         android:text=""
@@ -75,8 +81,23 @@
         android:maxLines="1"
         android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="10dp"
         />
+
+        <EditText
+            android:id="@+id/numero"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/numero"
+            android:text=""
+            android:inputType="number"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:maxLines="1"
+            android:layout_marginTop="10dp"
+            />
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/bairro"
@@ -97,7 +118,7 @@
         android:id="@+id/cidade"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/cidade_estado"
+        android:hint="@string/cidade"
         android:text=""
         android:inputType="text"
         android:textSize="18sp"
@@ -106,6 +127,21 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        />
+
+    <EditText
+        android:id="@+id/estado"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/estado"
+        android:text=""
+        android:inputType="text"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:maxLines="1"
+        android:maxLength="2"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
         />
 
     <EditText

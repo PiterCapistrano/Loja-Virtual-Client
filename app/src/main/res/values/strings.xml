@@ -28,8 +28,10 @@
     <string name="cep">CEP</string>
     <string name="pesquisar_cep">Pesquisar CEP</string>
     <string name="bairro">Bairro</string>
-    <string name="rua">Rua e Número</string>
-    <string name="cidade_estado">Cidade e Estado</string>
+    <string name="rua">Rua</string>
+    <string name="numero">Número</string>
+    <string name="cidade">Cidade</string>
+    <string name="estado">Estado</string>
     <string name="complemento">Complemento</string>
     <string name="telefone">telefone</string>
     <string name="bt_pagamento">Fazer Pagamento</string>
