@@ -14,11 +14,14 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.pitercapistrano.applojavirtualclient.Api.Api;
 import com.pitercapistrano.applojavirtualclient.R;
 import com.pitercapistrano.applojavirtualclient.databinding.ActivityPagamentoBinding;
+import com.pitercapistrano.applojavirtualclient.interfaceMercadoPago.ComunicacaoServidorMP;
 import com.pitercapistrano.applojavirtualclient.model.Endereco;
 
 import retrofit2.Call;
@@ -26,6 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Pagamento extends AppCompatActivity {
 
@@ -175,5 +179,33 @@ public class Pagamento extends AppCompatActivity {
         dados.add("payment_methods", excluir_pagamento);*/
 
         Log.d("itens", dados.toString());
+        criarPreferenciaPagamento(dados);
+    }
+    private void criarPreferenciaPagamento(JsonObject dados){
+        String site = "https://api.mercadopago.com";
+        String url = "/checkout/preferences?access_token"+ACCESS_TOKEN;
+
+        Gson gson = new GsonBuilder().setLenient().create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(site)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        ComunicacaoServidorMP conexao_pagamento = retrofit.create(ComunicacaoServidorMP.class);
+        Call<JsonObject> request = conexao_pagamento.enviarPagamento(url, dados);
+        request.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                String preferenceId = response.body().get("id").getAsString();
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable throwable) {
+
+            }
+        });
     }
 }
