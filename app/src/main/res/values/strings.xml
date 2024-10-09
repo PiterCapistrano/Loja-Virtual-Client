@@ -25,14 +25,15 @@
     <string name="tamanho_41">41</string>
     <string name="tamanho_42">42</string>
     <string name="txt_endereco">Preencha todos os campos antes \n de fazer o pagamento!</string>
-    <string name="cep">CEP *</string>
+    <string name="cep">CEP <b><font color="#FF0000">*</font></b></string>
     <string name="pesquisar_cep">Pesquisar CEP</string>
-    <string name="bairro">Bairro *</string>
-    <string name="rua">Rua *</string>
-    <string name="numero">Número *</string>
-    <string name="cidade">Cidade *</string>
-    <string name="estado">Estado *</string>
+    <string name="bairro">Bairro <b><font color="#FF0000">*</font></b></string>
+    <string name="rua">Rua <b><font color="#FF0000">*</font></b></string>
+    <string name="numero">Número <b><font color="#FF0000">*</font></b></string>
+    <string name="cidade">Cidade <b><font color="#FF0000">*</font></b></string>
+    <string name="estado">Estado <b><font color="#FF0000">*</font></b></string>
     <string name="complemento">Complemento</string>
+    <string name="ddd">DDD</string>
     <string name="telefone">telefone</string>
     <string name="bt_pagamento">Fazer Pagamento</string>
     <string name="obrigatorio">Campos obrigatórios marcados com *</string>

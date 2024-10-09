@@ -13,6 +13,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.pitercapistrano.applojavirtualclient.Api.Api;
 import com.pitercapistrano.applojavirtualclient.R;
 import com.pitercapistrano.applojavirtualclient.databinding.ActivityPagamentoBinding;
@@ -105,7 +108,7 @@ public class Pagamento extends AppCompatActivity {
                snackbar.setTextColor(Color.WHITE);
                snackbar.show();
            } else {
-
+                criarJsonObject();
            }
         });
     }
@@ -115,5 +118,62 @@ public class Pagamento extends AppCompatActivity {
         binding.bairro.setText(bairro);
         binding.cidade.setText(localidade);
         binding.estado.setText(uf);
+    }
+
+    private void criarJsonObject(){
+
+        String emailUsuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String ddd = binding.ddd.getText().toString();
+        String telefone = binding.telefone.getText().toString();
+        String cep = binding.cep.getText().toString();
+        String rua = binding.rua.getText().toString();
+        String numero = binding.numero.getText().toString();
+
+        JsonObject dados = new JsonObject();
+
+        // Primeiro item
+        JsonArray item_lista = new JsonArray();
+        JsonObject item;
+
+        // Segundo item
+        JsonObject informaceos_pessoais =new JsonObject();
+
+        // Criando o objeto de telefone
+        JsonObject telefoneObj = new JsonObject();
+        telefoneObj.addProperty("area_code", ddd);
+        telefoneObj.addProperty("number", telefone);
+
+        // Criando o objeto de endereço
+        JsonObject endereco = new JsonObject();
+        endereco.addProperty("zip_code", cep);
+        endereco.addProperty("street_name", rua);
+        endereco.addProperty("street_number", Integer.parseInt(numero));
+        item = new JsonObject();
+        item.addProperty("title", nome);
+        item.addProperty("quantity", 1);
+        item.addProperty("currency_id", "BRL");
+        item.addProperty("unit_price", Double.parseDouble(preco));
+        item_lista.add(item);
+
+        dados.add("items", item_lista);
+
+        informaceos_pessoais.addProperty("email", emailUsuario);
+        informaceos_pessoais.add("phone", telefoneObj);
+        informaceos_pessoais.add("adddress", endereco);
+
+        dados.add("payer", informaceos_pessoais);
+
+        // Terceiro item - Excluir formas de pagamento - nesse caso vai ser o boleto
+        /*JsonObject excluir_pagamento = new JsonObject();
+        JsonArray ids = new JsonArray();
+        JsonObject removerBoleto = new JsonObject();
+
+        ids.add(removerBoleto);
+        excluir_pagamento.add("excluded_payment_types", ids);
+        excluir_pagamento.addProperty("isntallments", 2);
+
+        dados.add("payment_methods", excluir_pagamento);*/
+
+        Log.d("itens", dados.toString());
     }
 }
