@@ -4,9 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -16,7 +13,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -27,6 +23,7 @@ import com.mercadopago.android.px.model.Payment;
 import com.mercadopago.android.px.model.exceptions.MercadoPagoError;
 import com.pitercapistrano.applojavirtualclient.Api.Api;
 import com.pitercapistrano.applojavirtualclient.R;
+import com.pitercapistrano.applojavirtualclient.activities.Pedidos.Pedidos;
 import com.pitercapistrano.applojavirtualclient.databinding.ActivityPagamentoBinding;
 import com.pitercapistrano.applojavirtualclient.interfaceMercadoPago.ComunicacaoServidorMP;
 import com.pitercapistrano.applojavirtualclient.model.DB;
@@ -284,17 +281,17 @@ public class Pagamento extends AppCompatActivity {
         String telefone = binding.telefone.getText().toString();
 
         String endereco = "Cep: " + cep + "\nRua: " + rua + ", " + numero + "\nBairro: " + bairro + "\nCidade: " + cidade + " / " + estado + "\nComplemento: " + complemento;
-        String telefoneComDDD = "(" + ddd + ")" + " " + telefone;
+        String telefoneComDDD = "Telefone: " + "(" + ddd + ")" + " " + telefone;
         String status_entrega = "Status de Entrega: " + " " + "Em andamento";
 
 
-        String nomeProduto = nome;
-        String tamanho = tamanho_calcado;
-        String precoProduto = preco;
+        String nomeProduto = "Nome: " + nome;
+        String tamanho = "Tamanho: " + tamanho_calcado;
+        String precoProduto = "Preço: R$ " + preco;
 
         // Exibe mensagens com base no status do pagamento
         if (status.equalsIgnoreCase("approved")) {
-            String status_pagamento = "Status de Pagamento: " + " " + "Pagamento Aprovado!";
+            String status_pagamento = "Status de Pagamento: " + "Pagamento Aprovado!";
 
             // Pagamento aprovado
             Snackbar snackbar = Snackbar.make(binding.main, "Pagamento efetuado com sucesso!", Snackbar.LENGTH_LONG);
@@ -304,6 +301,14 @@ public class Pagamento extends AppCompatActivity {
 
             db.salvarDadosPedidosUsuario(endereco, telefoneComDDD, nomeProduto, precoProduto, tamanho, status_pagamento, status_entrega);
 
+            // Aguardar 2 segundos antes de chamar a função
+            new android.os.Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    irParaTelaPedidos();
+                }
+            }, 2000); // 2000 ms = 2 segundos
+
         } else if (status.equalsIgnoreCase("rejected")) {
             // Pagamento rejeitado
             Snackbar snackbar = Snackbar.make(binding.main, "Erro ao fazer o pagamento!", Snackbar.LENGTH_LONG);
@@ -311,8 +316,9 @@ public class Pagamento extends AppCompatActivity {
             snackbar.setTextColor(Color.WHITE);
             snackbar.show();
 
+
         } else if (status.equalsIgnoreCase("in_process")) {
-            String status_pagamento = "Status de Pagamento: " + " " + "Pagamento em Processamento!";
+            String status_pagamento = "Status de Pagamento: " + "Pagamento em Processamento!";
 
             // Pagamento pendente
             Snackbar snackbar = Snackbar.make(binding.main, "Pagamento em processamento!", Snackbar.LENGTH_LONG);
@@ -320,9 +326,17 @@ public class Pagamento extends AppCompatActivity {
             snackbar.setTextColor(Color.BLACK);
             snackbar.show();
 
-            status_entrega = "Aguardando Pagamento!";
+            status_entrega = "Status de Entrega: " + "Aguardando Pagamento!";
 
             db.salvarDadosPedidosUsuario(endereco, telefoneComDDD, nomeProduto, precoProduto, tamanho, status_pagamento, status_entrega);
+
+            // Aguardar 2 segundos antes de chamar a função
+            new android.os.Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    irParaTelaPedidos();
+                }
+            }, 2000); // 2000 ms = 2 segundos
 
         } else {
             // Qualquer outro erro
@@ -341,5 +355,10 @@ public class Pagamento extends AppCompatActivity {
             // Exibe a mensagem de erro detalhada
             Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void irParaTelaPedidos(){
+        Intent intent = new Intent(this, Pedidos.class);
+        startActivity(intent);
     }
 }

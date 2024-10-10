@@ -3,9 +3,9 @@ package com.pitercapistrano.applojavirtualclient.model
 data class Pedido (
     val endereco: String? = null,
     val telefone: String? = null,
-    val nomeProduto: String? = null,
-    val tamanhoProduto: String? = null,
-    val precoProduto: String? = null,
-    val statusPagamento: String? = null,
-    val statusEntrega: String? = null
+    val produto: String? = null,
+    val tamanho_calcado: String? = null,
+    val preco: String? = null,
+    val status_pagamento: String? = null,
+    val status_entrega: String? = null
 )

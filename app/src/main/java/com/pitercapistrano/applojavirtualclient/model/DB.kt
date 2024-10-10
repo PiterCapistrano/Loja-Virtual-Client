@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
+import com.pitercapistrano.applojavirtualclient.adapter.AdapterPedido
 import com.pitercapistrano.applojavirtualclient.adapter.AdapterProduto
 import java.util.UUID
 
@@ -90,5 +91,22 @@ class DB {
         }.addOnFailureListener { e ->
             Log.e("db_pedidos", "Erro ao salvar os pedidos", e)
         }
+    }
+
+    fun obterListaPedidos(lista_pedidos: MutableList<Pedido>, adapter_pedido: AdapterPedido){
+
+        var db = FirebaseFirestore.getInstance()
+        var usuarioID = FirebaseAuth.getInstance().currentUser!!.uid
+
+        db.collection("Usuario_Pedidos").document(usuarioID).collection("Pedidos")
+            .get().addOnCompleteListener { tarefa ->
+                if (tarefa.isSuccessful){
+                    for (documento in tarefa.result!!){
+                        val pedidos = documento.toObject(Pedido::class.java)
+                        lista_pedidos.add(pedidos)
+                        adapter_pedido.notifyDataSetChanged()
+                    }
+                }
+            }
     }
 }
