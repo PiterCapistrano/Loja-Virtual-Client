@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.pitercapistrano.applojavirtualclient.R
 import com.pitercapistrano.applojavirtualclient.activities.FormLogin.FormLogin
+import com.pitercapistrano.applojavirtualclient.activities.Pedidos.Pedidos
 import com.pitercapistrano.applojavirtualclient.adapter.AdapterProduto
 import com.pitercapistrano.applojavirtualclient.databinding.ActivityHomeBinding
 import com.pitercapistrano.applojavirtualclient.dialog.DialogPerfil
@@ -56,7 +57,7 @@ class Home : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.perfil -> iniciarPerfil()
-            R.id.pedidos -> Toast.makeText(this, "Ir para tela de pedidos!", Toast.LENGTH_SHORT).show()
+            R.id.pedidos -> irTelaPedidos()
             R.id.sair -> deslogar()
         }
 
@@ -69,6 +70,11 @@ class Home : AppCompatActivity() {
         startActivity(intent)
         finish()
         Toast.makeText(this, "Usuário Deslogado com Sucesso!", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun irTelaPedidos(){
+        val intent = Intent(this, Pedidos::class.java)
+        startActivity(intent)
     }
 
     private fun iniciarPerfil(){
