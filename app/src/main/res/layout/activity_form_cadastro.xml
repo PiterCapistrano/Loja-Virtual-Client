@@ -12,7 +12,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.FormCadastro.FormCadastro">
+    tools:context=".activities.FormCadastro.FormCadastro"
+    android:background="@color/white">
 
     <TextView
     android:id="@+id/txtTelaCadastro"

@@ -53,41 +53,69 @@ class FormLogin : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        // Define a cor da barra de status como preto usando o código hexadecimal
         window.statusBarColor = Color.parseColor("#000000")
-        supportActionBar!!.hide()
 
+// Define a visibilidade da interface do sistema como padrão (sem modificações)
+        window.decorView.systemUiVisibility = 0
+
+// Cria uma instância do diálogo de carregamento, que será exibido durante operações de longa duração
         val dialogCarregando = DialogCarregando(this)
 
+// Define o comportamento ao clicar no texto de cadastro
         binding.txtCadastrar.setOnClickListener {
+            // Cria um Intent para navegar para a atividade de cadastro
             val intent = Intent(this, FormCadastro::class.java)
+            // Inicia a atividade de cadastro
             startActivity(intent)
         }
 
-        binding.btEntrar.setOnClickListener {view ->
+// Define o comportamento ao clicar no botão de login
+        binding.btEntrar.setOnClickListener { view ->
+            // Obtém o texto inserido no campo de email
             val email = binding.editEmail.text.toString()
+            // Obtém o texto inserido no campo de senha
             val senha = binding.editSenha.text.toString()
+            // Obtém o gerenciador de input do sistema
             val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            // Oculta o teclado virtual ao clicar no botão de login
             inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
 
-            if (email.isEmpty() || senha.isEmpty()){
+            // Verifica se os campos de email ou senha estão vazios
+            if (email.isEmpty() || senha.isEmpty()) {
+                // Cria uma Snackbar para exibir uma mensagem de erro se os campos estiverem vazios
                 val snackbar = Snackbar.make(view, "Preencha Todos os Campos!", Snackbar.LENGTH_SHORT)
+                // Define a cor de fundo da Snackbar como vermelho
                 snackbar.setBackgroundTint(Color.RED)
+                // Define a cor do texto da Snackbar como branco
                 snackbar.setTextColor(Color.WHITE)
+                // Exibe a Snackbar com a mensagem de erro
                 snackbar.show()
             } else {
+                // Tenta fazer login com email e senha usando Firebase Authentication
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email, senha).addOnCompleteListener {
+                    // Verifica se a autenticação foi bem-sucedida
                     if (it.isSuccessful) {
+                        // Inicia o diálogo de carregamento
                         dialogCarregando.iniciarCarregamentoAlertDialog()
+                        // Torna a barra de progresso visível para indicar que a operação está em andamento
                         binding.progressBar.visibility = View.VISIBLE
+                        // Agenda uma tarefa para ser executada no thread principal após 3 segundos
                         Handler(Looper.getMainLooper()).postDelayed({
+                            // Chama o método para navegar para a Home
                             goToHome()
+                            // Libera o diálogo de carregamento após a navegação
                             dialogCarregando.liberarAlertDialog()
-                        }, 3000)
+                        }, 3000) // Define o atraso de 3000 milissegundos
                     }
                 }.addOnFailureListener {
+                    // Cria uma Snackbar para exibir uma mensagem de erro se o login falhar
                     val snackbar = Snackbar.make(view, "Erro ao efetuar o login!", Snackbar.LENGTH_SHORT)
+                    // Define a cor de fundo da Snackbar como vermelho
                     snackbar.setBackgroundTint(Color.RED)
+                    // Define a cor do texto da Snackbar como branco
                     snackbar.setTextColor(Color.WHITE)
+                    // Exibe a Snackbar com a mensagem de erro
                     snackbar.show()
                 }
             }
@@ -109,13 +137,21 @@ class FormLogin : AppCompatActivity() {
         }
     }
 
+    // Sobrescreve o método onStart, que é chamado quando a atividade se torna visível para o usuário
     override fun onStart() {
+        // Chama o método onStart da superclasse para garantir que a lógica padrão seja executada
         super.onStart()
+
+        // Obtém a instância atual do FirebaseAuth e armazena o usuário autenticado
         val usuarioAtual = FirebaseAuth.getInstance().currentUser
-        if (usuarioAtual != null){
+
+        // Verifica se um usuário está autenticado (ou seja, se usuarioAtual não é nulo)
+        if (usuarioAtual != null) {
+            // Chama o método goToHome para navegar para a tela inicial se o usuário estiver autenticado
             goToHome()
         }
     }
+
 
     // Método que redireciona o usuário para a Activity Home
     private fun goToHome() {
@@ -149,44 +185,68 @@ class FormLogin : AppCompatActivity() {
     }
 
     // Autenticando com Firebase usando o token do Google
+    // Método privado para autenticar um usuário com o Google usando um token de ID
     private fun firebaseAuthWithGoogle(idToken: String) {
+        // Cria credenciais para autenticação usando o token de ID do Google
         val credential = GoogleAuthProvider.getCredential(idToken, null)
+
+        // Obtém a instância do FirebaseAuth e tenta fazer login com as credenciais criadas
         FirebaseAuth.getInstance().signInWithCredential(credential)
+            // Adiciona um listener para escutar o resultado da autenticação
             .addOnCompleteListener(this) { task ->
+                // Verifica se a autenticação foi bem-sucedida
                 if (task.isSuccessful) {
+                    // Cria uma instância de DialogCarregando para exibir um diálogo de carregamento
                     val dialogCarregando = DialogCarregando(this)
+                    // Obtém o usuário autenticado atual
                     val user = FirebaseAuth.getInstance().currentUser
-                    Toast.makeText(this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT).show() // Exibe mensagem de sucesso
+                    // Exibe uma mensagem de sucesso ao usuário
+                    Toast.makeText(this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT).show()
+                    // Registra um log indicando que o login com Google foi bem-sucedido
                     Log.d("LoginGoogle", "Login com Google bem-sucedido: ${user?.displayName}")
 
-                    // Salvando o usuário no Firestore
+                    // Salva as informações do usuário no Firestore
                     user?.displayName?.let { displayName ->
+                        // Obtém a instância do Firestore
                         val db = FirebaseFirestore.getInstance()
+                        // Obtém o ID do usuário autenticado
                         val userId = user.uid
+                        // Cria um mapa com o nome do usuário
                         val userMap = hashMapOf("name" to displayName)
 
+                        // Armazena os dados do usuário no Firestore na coleção "Usuarios"
                         db.collection("Usuarios").document(userId).set(userMap)
                             .addOnSuccessListener {
+                                // Registra um log indicando que o documento foi salvo com sucesso
                                 Log.d("Firestore", "DocumentSnapshot successfully written!")
                             }
                             .addOnFailureListener { e ->
+                                // Registra um log de erro se a gravação falhar
                                 Log.w("Firestore", "Error writing document", e)
                             }
                     }
+                    // Inicia o diálogo de carregamento
                     dialogCarregando.iniciarCarregamentoAlertDialog()
+                    // Torna a barra de progresso visível
                     binding.progressBar.visibility = View.VISIBLE
+                    // Agendamento de tarefa para ser executado após 3 segundos
                     Handler().postDelayed({
-
+                        // Chama o método para salvar o usuário no Firestore
                         saveUserToFirestore(user)
+                        // Libera o diálogo de carregamento
                         dialogCarregando.liberarAlertDialog()
+                        // Redireciona o usuário para a tela inicial
                         goToHome()
-                    }, 3000)
+                    }, 3000) // Atraso de 3000 milissegundos (3 segundos)
                 } else {
+                    // Registra um log indicando que houve um erro na autenticação com Google
                     Log.w("LoginGoogle", "Erro ao autenticar com Google", task.exception)
+                    // Exibe uma mensagem de erro ao usuário
                     Toast.makeText(this, "Erro ao autenticar!", Toast.LENGTH_SHORT).show()
                 }
             }
     }
+
 
     // Função para salvar os dados do usuário no Firestore
     private fun saveUserToFirestore(user: FirebaseUser?) {
