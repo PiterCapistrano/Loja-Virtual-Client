@@ -29,6 +29,7 @@ import com.pitercapistrano.applojavirtualclient.Api.Api;
 import com.pitercapistrano.applojavirtualclient.R;
 import com.pitercapistrano.applojavirtualclient.databinding.ActivityPagamentoBinding;
 import com.pitercapistrano.applojavirtualclient.interfaceMercadoPago.ComunicacaoServidorMP;
+import com.pitercapistrano.applojavirtualclient.model.DB;
 import com.pitercapistrano.applojavirtualclient.model.Endereco;
 
 import retrofit2.Call;
@@ -47,6 +48,8 @@ public class Pagamento extends AppCompatActivity {
 
     private final String PUBLIC_KEY = "APP_USR-bfee4cab-9068-4349-ac47-e14db465f74f";
     private final String ACCESS_TOKEN = "APP_USR-8878276529007772-100919-44a1753c7b684236a012c52510b43d67-2028646208";
+
+    DB db = new DB();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,6 +183,7 @@ public class Pagamento extends AppCompatActivity {
         JsonArray ids = new JsonArray();
         JsonObject removerBoleto = new JsonObject();
 
+        removerBoleto.addProperty("id", "ticket");
         ids.add(removerBoleto);
         excluir_pagamento.add("excluded_payment_types", ids);
         excluir_pagamento.addProperty("isntallments", 2);
@@ -269,13 +273,36 @@ public class Pagamento extends AppCompatActivity {
         // Obtém o status do pagamento
         String status = pagamento.getPaymentStatus();
 
+        String cep = binding.cep.getText().toString();
+        String rua = binding.rua.getText().toString();
+        String numero = binding.numero.getText().toString();
+        String bairro = binding.bairro.getText().toString();
+        String cidade = binding.cidade.getText().toString();
+        String estado = binding.estado.getText().toString();
+        String complemento = binding.complemento.getText().toString();
+        String ddd = binding.ddd.getText().toString();
+        String telefone = binding.telefone.getText().toString();
+
+        String endereco = "Cep: " + cep + "\nRua: " + rua + ", " + numero + "\nBairro: " + bairro + "\nCidade: " + cidade + " / " + estado + "\nComplemento: " + complemento;
+        String telefoneComDDD = "(" + ddd + ")" + " " + telefone;
+        String status_entrega = "Status de Entrega: " + " " + "Em andamento";
+
+
+        String nomeProduto = nome;
+        String tamanho = tamanho_calcado;
+        String precoProduto = preco;
+
         // Exibe mensagens com base no status do pagamento
         if (status.equalsIgnoreCase("approved")) {
+            String status_pagamento = "Status de Pagamento: " + " " + "Pagamento Aprovado!";
+
             // Pagamento aprovado
             Snackbar snackbar = Snackbar.make(binding.main, "Pagamento efetuado com sucesso!", Snackbar.LENGTH_LONG);
             snackbar.setBackgroundTint(Color.parseColor("#4E9100"));
             snackbar.setTextColor(Color.WHITE);
             snackbar.show();
+
+            db.salvarDadosPedidosUsuario(endereco, telefoneComDDD, nomeProduto, precoProduto, tamanho, status_pagamento, status_entrega);
 
         } else if (status.equalsIgnoreCase("rejected")) {
             // Pagamento rejeitado
@@ -285,11 +312,17 @@ public class Pagamento extends AppCompatActivity {
             snackbar.show();
 
         } else if (status.equalsIgnoreCase("in_process")) {
+            String status_pagamento = "Status de Pagamento: " + " " + "Pagamento em Processamento!";
+
             // Pagamento pendente
             Snackbar snackbar = Snackbar.make(binding.main, "Pagamento em processamento!", Snackbar.LENGTH_LONG);
             snackbar.setBackgroundTint(Color.YELLOW);
             snackbar.setTextColor(Color.BLACK);
             snackbar.show();
+
+            status_entrega = "Aguardando Pagamento!";
+
+            db.salvarDadosPedidosUsuario(endereco, telefoneComDDD, nomeProduto, precoProduto, tamanho, status_pagamento, status_entrega);
 
         } else {
             // Qualquer outro erro
