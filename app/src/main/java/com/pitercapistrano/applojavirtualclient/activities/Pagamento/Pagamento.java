@@ -1,9 +1,12 @@
 package com.pitercapistrano.applojavirtualclient.activities.Pagamento;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +21,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.mercadopago.android.px.configuration.AdvancedConfiguration;
+import com.mercadopago.android.px.core.MercadoPagoCheckout;
+import com.mercadopago.android.px.model.Payment;
+import com.mercadopago.android.px.model.exceptions.MercadoPagoError;
 import com.pitercapistrano.applojavirtualclient.Api.Api;
 import com.pitercapistrano.applojavirtualclient.R;
 import com.pitercapistrano.applojavirtualclient.databinding.ActivityPagamentoBinding;
@@ -38,8 +45,8 @@ public class Pagamento extends AppCompatActivity {
     private String nome;
     private String preco;
 
-    private final String PUBLIC_KEY ="APP_USR-df25dac5-4329-4449-80dd-2731d8ad3355";
-    private final String ACCESS_TOKEN ="APP_USR-5384308295965344-100822-cbb3cd209d4dd2c7dbb8f9894b5cc3f8-36119358";
+    private final String PUBLIC_KEY = "APP_USR-bfee4cab-9068-4349-ac47-e14db465f74f";
+    private final String ACCESS_TOKEN = "APP_USR-8878276529007772-100919-44a1753c7b684236a012c52510b43d67-2028646208";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,21 +106,21 @@ public class Pagamento extends AppCompatActivity {
         });
 
         binding.btPagamento.setOnClickListener(v -> {
-           String cep = binding.cep.getText().toString();
-           String rua = binding.rua.getText().toString();
-           String numero = binding.numero.getText().toString();
-           String bairro = binding.bairro.getText().toString();
-           String cidade = binding.cidade.getText().toString();
-           String estado = binding.estado.getText().toString();
+            String cep = binding.cep.getText().toString();
+            String rua = binding.rua.getText().toString();
+            String numero = binding.numero.getText().toString();
+            String bairro = binding.bairro.getText().toString();
+            String cidade = binding.cidade.getText().toString();
+            String estado = binding.estado.getText().toString();
 
-           if (cep.isEmpty() || rua.isEmpty() || numero.isEmpty() || bairro.isEmpty() || cidade.isEmpty() || estado.isEmpty()){
-               Snackbar snackbar = Snackbar.make(v, "Preencha os campos obrigatórios!", Snackbar.LENGTH_SHORT);
-               snackbar.setBackgroundTint(Color.RED);
-               snackbar.setTextColor(Color.WHITE);
-               snackbar.show();
-           } else {
+            if (cep.isEmpty() || rua.isEmpty() || numero.isEmpty() || bairro.isEmpty() || cidade.isEmpty() || estado.isEmpty()) {
+                Snackbar snackbar = Snackbar.make(v, "Preencha os campos obrigatórios!", Snackbar.LENGTH_SHORT);
+                snackbar.setBackgroundTint(Color.RED);
+                snackbar.setTextColor(Color.WHITE);
+                snackbar.show();
+            } else {
                 criarJsonObject();
-           }
+            }
         });
     }
 
@@ -124,9 +131,10 @@ public class Pagamento extends AppCompatActivity {
         binding.estado.setText(uf);
     }
 
-    private void criarJsonObject(){
+    private void criarJsonObject() {
 
-        String emailUsuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        //String emailUsuario = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        String emailUsuario = "test_user_1225665122@testuser.com";
         String ddd = binding.ddd.getText().toString();
         String telefone = binding.telefone.getText().toString();
         String cep = binding.cep.getText().toString();
@@ -140,7 +148,7 @@ public class Pagamento extends AppCompatActivity {
         JsonObject item;
 
         // Segundo item
-        JsonObject informaceos_pessoais =new JsonObject();
+        JsonObject informaceos_pessoais = new JsonObject();
 
         // Criando o objeto de telefone
         JsonObject telefoneObj = new JsonObject();
@@ -181,9 +189,10 @@ public class Pagamento extends AppCompatActivity {
         Log.d("itens", dados.toString());
         criarPreferenciaPagamento(dados);
     }
-    private void criarPreferenciaPagamento(JsonObject dados){
+
+    private void criarPreferenciaPagamento(JsonObject dados) {
         String site = "https://api.mercadopago.com";
-        String url = "/checkout/preferences?access_token"+ACCESS_TOKEN;
+        String url = "/checkout/preferences?access_token=" + ACCESS_TOKEN;
 
         Gson gson = new GsonBuilder().setLenient().create();
 
@@ -199,7 +208,7 @@ public class Pagamento extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 String preferenceId = response.body().get("id").getAsString();
-
+                criarPagamento(preferenceId);
             }
 
             @Override
@@ -207,5 +216,97 @@ public class Pagamento extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void criarPagamento(String preferenceId) {
+        final AdvancedConfiguration advancedConfiguration =
+                new AdvancedConfiguration.Builder().setBankDealsEnabled(false).build();
+        new MercadoPagoCheckout
+                .Builder(PUBLIC_KEY, preferenceId)
+                .setAdvancedConfiguration(advancedConfiguration).build()
+                .startPayment(this, 123);
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Verifica se o requestCode é o esperado
+        if (requestCode == 123) {
+
+            // Verifica se o pagamento foi concluído
+            if (resultCode == MercadoPagoCheckout.PAYMENT_RESULT_CODE) {
+
+                // Obtém o objeto Payment da resposta
+                final Payment pagamento = (Payment) data.getSerializableExtra(MercadoPagoCheckout.EXTRA_PAYMENT_RESULT);
+
+                // Se o pagamento não for nulo, chama a função para mostrar a mensagem
+                if (pagamento != null) {
+                    respostaMercadoPago(pagamento);
+                } else {
+                    Toast.makeText(this, "Falha ao obter o resultado do pagamento.", Toast.LENGTH_SHORT).show();
+                }
+
+            } else if (resultCode == RESULT_CANCELED) {
+                // Verifica se o pagamento foi cancelado e exibe a mensagem
+                if (data != null && data.hasExtra(MercadoPagoCheckout.EXTRA_ERROR)) {
+                    final MercadoPagoError mercadoPagoError = (MercadoPagoError) data.getSerializableExtra(MercadoPagoCheckout.EXTRA_ERROR);
+                    exibirMensagemErro(mercadoPagoError);
+                } else {
+                    // O usuário cancelou a operação manualmente
+                    Toast.makeText(this, "Pagamento cancelado pelo usuário.", Toast.LENGTH_SHORT).show();
+                }
+
+            } else {
+                // Caso um código de resultado diferente seja retornado
+                Toast.makeText(this, "Erro inesperado ao processar o pagamento.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void respostaMercadoPago(Payment pagamento) {
+
+        // Obtém o status do pagamento
+        String status = pagamento.getPaymentStatus();
+
+        // Exibe mensagens com base no status do pagamento
+        if (status.equalsIgnoreCase("approved")) {
+            // Pagamento aprovado
+            Snackbar snackbar = Snackbar.make(binding.main, "Pagamento efetuado com sucesso!", Snackbar.LENGTH_LONG);
+            snackbar.setBackgroundTint(Color.parseColor("#4E9100"));
+            snackbar.setTextColor(Color.WHITE);
+            snackbar.show();
+
+        } else if (status.equalsIgnoreCase("rejected")) {
+            // Pagamento rejeitado
+            Snackbar snackbar = Snackbar.make(binding.main, "Erro ao fazer o pagamento!", Snackbar.LENGTH_LONG);
+            snackbar.setBackgroundTint(Color.RED);
+            snackbar.setTextColor(Color.WHITE);
+            snackbar.show();
+
+        } else if (status.equalsIgnoreCase("in_process")) {
+            // Pagamento pendente
+            Snackbar snackbar = Snackbar.make(binding.main, "Pagamento em processamento!", Snackbar.LENGTH_LONG);
+            snackbar.setBackgroundTint(Color.YELLOW);
+            snackbar.setTextColor(Color.BLACK);
+            snackbar.show();
+
+        } else {
+            // Qualquer outro erro
+            Snackbar snackbar = Snackbar.make(binding.main, "Erro inesperado!", Snackbar.LENGTH_LONG);
+            snackbar.setBackgroundTint(Color.RED);
+            snackbar.setTextColor(Color.WHITE);
+            snackbar.show();
+        }
+    }
+
+    private void exibirMensagemErro(MercadoPagoError error) {
+        // Verifica se o erro é de rede ou outro erro
+        if (error.isNoConnectivityError()) {
+            Toast.makeText(this, "Erro de rede ao processar o pagamento.", Toast.LENGTH_SHORT).show();
+        } else {
+            // Exibe a mensagem de erro detalhada
+            Toast.makeText(this, error.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }
