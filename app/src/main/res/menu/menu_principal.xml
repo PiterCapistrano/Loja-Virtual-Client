@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/blue">
 
     <item
         android:title=""
         android:icon="@drawable/ic_menu_lateral"
-        app:showAsAction="always">
+        app:showAsAction="always"
+        android:visible="true"
+        android:enabled="true"
+        android:background="@color/blue">
 
         <menu>
             <item
                 android:id="@+id/perfil"
                 android:title="@string/perfil"
                 android:icon="@drawable/ic_perfil"
-                app:showAsAction="never"/>
+                app:showAsAction="never"
+                android:background="@color/blue"/>
 
             <item
                 android:id="@+id/pedidos"
                 android:title="@string/pedidos"
                 android:icon="@drawable/ic_pedidos"
-                app:showAsAction="never"/>
+                app:showAsAction="never"
+                android:background="@color/blue"/>
 
             <item
                 android:id="@+id/sair"
                 android:title="@string/sair"
                 android:icon="@drawable/ic_logout"
-                app:showAsAction="never"/>
+                app:showAsAction="never"
+                android:background="@color/blue"/>
         </menu>
 
     </item>

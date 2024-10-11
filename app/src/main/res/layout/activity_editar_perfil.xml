@@ -11,7 +11,8 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.FormCadastro.FormCadastro">
+        tools:context=".activities.FormCadastro.FormCadastro"
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/txtTelaCadastro"
@@ -45,7 +46,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:backgroundTint="@android:color/transparent"
+            android:backgroundTint="@color/light_gray"
             app:layout_constraintTop_toBottomOf="@+id/img_perfil"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
