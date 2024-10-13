@@ -7,5 +7,7 @@ data class Pedido (
     val tamanho_calcado: String? = null,
     val preco: String? = null,
     val status_pagamento: String? = null,
-    val status_entrega: String? = null
+    val status_entrega: String? = null,
+    val usuarioID: String? = null,
+    val pedidoID: String? = null
 )

@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -28,6 +29,8 @@ import com.pitercapistrano.applojavirtualclient.databinding.ActivityPagamentoBin
 import com.pitercapistrano.applojavirtualclient.interfaceMercadoPago.ComunicacaoServidorMP;
 import com.pitercapistrano.applojavirtualclient.model.DB;
 import com.pitercapistrano.applojavirtualclient.model.Endereco;
+
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,6 +50,9 @@ public class Pagamento extends AppCompatActivity {
     private final String ACCESS_TOKEN = "APP_USR-8878276529007772-100919-44a1753c7b684236a012c52510b43d67-2028646208";
 
     DB db = new DB();
+
+    private String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private String pedidoID = UUID.randomUUID().toString();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -299,7 +305,8 @@ public class Pagamento extends AppCompatActivity {
             snackbar.setTextColor(Color.WHITE);
             snackbar.show();
 
-            db.salvarDadosPedidosUsuario(endereco, telefoneComDDD, nomeProduto, precoProduto, tamanho, status_pagamento, status_entrega);
+            db.salvarDadosPedidosUsuario(endereco, telefoneComDDD, nomeProduto, precoProduto, tamanho, status_pagamento, status_entrega, usuarioID, pedidoID);
+            db.salvarDadosPedidosAdm(endereco, telefoneComDDD, nomeProduto, precoProduto, tamanho, status_pagamento, status_entrega, usuarioID, pedidoID);
 
             // Aguardar 2 segundos antes de chamar a função
             new android.os.Handler().postDelayed(new Runnable() {
@@ -328,7 +335,8 @@ public class Pagamento extends AppCompatActivity {
 
             status_entrega = "Status de Entrega: " + "Aguardando Pagamento!";
 
-            db.salvarDadosPedidosUsuario(endereco, telefoneComDDD, nomeProduto, precoProduto, tamanho, status_pagamento, status_entrega);
+            db.salvarDadosPedidosUsuario(endereco, telefoneComDDD, nomeProduto, precoProduto, tamanho, status_pagamento, status_entrega, usuarioID, pedidoID);
+            db.salvarDadosPedidosAdm(endereco, telefoneComDDD, nomeProduto, precoProduto, tamanho, status_pagamento, status_entrega, usuarioID, pedidoID);
 
             // Aguardar 2 segundos antes de chamar a função
             new android.os.Handler().postDelayed(new Runnable() {

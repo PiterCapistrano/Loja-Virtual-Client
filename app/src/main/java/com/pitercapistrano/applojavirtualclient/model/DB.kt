@@ -20,29 +20,6 @@ import java.util.UUID
 // Classe DB que encapsula as operações de banco de dados
 class DB {
 
-    // Função para salvar os dados do usuário no Firestore
-    fun salvarDadosUsuario(nome: String, email: String){
-        // Obtém o ID do usuário autenticado
-        val usuarioID = FirebaseAuth.getInstance().currentUser!!.uid
-        // Obtém uma instância do Firestore
-        val db = FirebaseFirestore.getInstance()
-
-        // Cria um mapa com os dados do usuário a serem salvos
-        val usuarios = hashMapOf(
-            "nome" to nome,
-            "email" to email
-        )
-
-        // Define a referência ao documento do usuário no Firestore
-        val documentReference: DocumentReference = db.collection("Usuarios").document(usuarioID)
-        // Salva os dados do usuário e configura os listeners para sucesso e falha
-        documentReference.set(usuarios).addOnSuccessListener {
-            Log.d("DB", "Sucesso ao salvar os dados") // Loga sucesso
-        }.addOnFailureListener {
-            Log.d("DB_ERROR", "Erro ao salvar os dados! ${it.printStackTrace()}") // Loga erro
-        }
-    }
-
     // Função para recuperar os dados do perfil do usuário
     fun recuperarDadosPerfil(nomePerfil: TextView, emailPerfil: TextView){
         // Obtém o ID e email do usuário autenticado
@@ -63,6 +40,7 @@ class DB {
             }
         }
     }
+
 
     // Função para obter a lista de produtos do Firestore
     fun  obterListaProdutos(lista_produtos: MutableList<Produto>, adapterProduto: AdapterProduto){
@@ -91,14 +69,16 @@ class DB {
         preco: String,
         tamanho_calcado: String,
         status_pagamento: String,
-        status_entrega: String
+        status_entrega: String,
+        usuarioID:String,
+        pedidoID: String
     ){
         // Obtém uma instância do Firestore
         var db = FirebaseFirestore.getInstance()
         // Obtém o ID do usuário autenticado
-        var usuarioID = FirebaseAuth.getInstance().currentUser!!.uid
+        //var usuarioID = FirebaseAuth.getInstance().currentUser!!.uid
         // Gera um ID único para o pedido
-        var pedidoID = UUID.randomUUID().toString()
+        //var pedidoID = UUID.randomUUID().toString()
 
         // Cria um mapa com os dados do pedido a serem salvos
         val pedidos = hashMapOf(
@@ -109,12 +89,53 @@ class DB {
             "tamanho_calcado" to tamanho_calcado,
             "status_pagamento" to status_pagamento,
             "status_entrega" to status_entrega,
-            "data_pedido" to System.currentTimeMillis() // Adiciona a data do pedido
+            "usuarioID" to usuarioID,
+            "pedidoID" to pedidoID
         )
 
         // Define a referência ao documento do pedido no Firestore
         val documentreference = db.collection("Usuario_Pedidos").document(usuarioID)
             .collection("Pedidos").document(pedidoID)
+
+        // Salva os dados do pedido e configura os listeners para sucesso e falha
+        documentreference.set(pedidos).addOnSuccessListener {
+            Log.d("db_pedidos", "Sucesso ao salvar os pedidos!") // Loga sucesso
+        }.addOnFailureListener { e ->
+            Log.e("db_pedidos", "Erro ao salvar os pedidos", e) // Loga erro
+        }
+    }
+
+    // Função para salvar os dados dos pedidos do usuário
+    fun salvarDadosPedidosAdm(
+        endereco: String,
+        telefone: String,
+        produto: String,
+        preco: String,
+        tamanho_calcado: String,
+        status_pagamento: String,
+        status_entrega: String,
+        usuarioID:String,
+        pedidoID: String
+    ){
+        // Obtém uma instância do Firestore
+        var db = FirebaseFirestore.getInstance()
+
+        // Cria um mapa com os dados do pedido a serem salvos
+        val pedidos = hashMapOf(
+            "endereco" to endereco,
+            "telefone" to telefone,
+            "produto" to produto,
+            "preco" to preco,
+            "tamanho_calcado" to tamanho_calcado,
+            "status_pagamento" to status_pagamento,
+            "status_entrega" to status_entrega,
+            "usuarioID" to usuarioID,
+            "pedidoID" to pedidoID
+
+        )
+
+        // Define a referência ao documento do pedido no Firestore
+        val documentreference = db.collection("Pedidos_Adm").document(pedidoID)
 
         // Salva os dados do pedido e configura os listeners para sucesso e falha
         documentreference.set(pedidos).addOnSuccessListener {
