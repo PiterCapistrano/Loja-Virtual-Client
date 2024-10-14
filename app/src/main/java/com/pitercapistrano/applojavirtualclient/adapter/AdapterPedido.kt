@@ -3,6 +3,7 @@ package com.pitercapistrano.applojavirtualclient.adapter
 
 // Importações necessárias
 import android.content.Context // Para manipular o contexto da aplicação
+import android.graphics.Color
 import android.view.LayoutInflater // Para inflar layouts
 import android.view.View // Para manipulação de visualizações
 import android.view.ViewGroup // Para representar um grupo de visualizações
@@ -42,6 +43,23 @@ class AdapterPedido(val context: Context, val lista_pedidos: MutableList<Pedido>
         holder.txtStatusPagamento.text = lista_pedidos.get(position).status_pagamento
         // Define o status de entrega no TextView correspondente
         holder.txtStatusEntrega.text = lista_pedidos.get(position).status_entrega
+
+        if (holder.txtStatusPagamento.text.equals("Status de Pagamento: Pagamento Estornado!")){
+            holder.txtStatusPagamento.setTextColor(Color.RED)
+
+        } else if (holder.txtStatusPagamento.text.equals("Status de Pagamento: Pagamento Cancelado!")){
+            holder.txtStatusPagamento.setTextColor(Color.RED)
+        }else{
+            holder.txtStatusPagamento.setTextColor(Color.parseColor("#007A05"))
+        }
+
+        if (holder.txtStatusEntrega.text.equals("Status de Entrega: Em Separação!")){
+            holder.txtStatusEntrega.setTextColor(Color.parseColor("#FF9800"))
+        } else if (holder.txtStatusEntrega.text.equals("Status de Entrega: Em Trânsito!")){
+            holder.txtStatusEntrega.setTextColor(Color.parseColor("#007A05"))
+        } else if (holder.txtStatusEntrega.text.equals("Status de Entrega: Entregue!")){
+            holder.txtStatusEntrega.setTextColor(Color.BLUE)
+        }
     }
 
     // Classe interna PedidoViewHolder que estende RecyclerView.ViewHolder
