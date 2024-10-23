@@ -2,7 +2,7 @@
 
 # Descrição do Código - Tela Inicial do Aplicativo (Home)
 
-
+![app/src/main/res/drawable/home1.jpg](app/src/main/res/drawable/home1.jpg)
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 ![app/src/main/res/drawable/home2.jpg](app/src/main/res/drawable/home2.jpg)
 
