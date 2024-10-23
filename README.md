@@ -3,7 +3,7 @@
 # Descrição do Código - Tela Inicial do Aplicativo (Home)
 
 
-![app/src/main/res/drawable/home.jpg](app/src/main/res/drawable/home.jpg)    ![app/src/main/res/drawable/home2.jpg](app/src/main/res/drawable/home2.jpg)
+![app/src/main/res/drawable/home.jpg](app/src/main/res/drawable/home.jpg)       -      ![app/src/main/res/drawable/home2.jpg](app/src/main/res/drawable/home2.jpg)
 
 Este código implementa a tela inicial do aplicativo Android utilizando a linguagem Kotlin. A tela é responsável por exibir uma lista de produtos em um formato de grade, além de gerenciar ações do menu, como acessar o perfil do usuário, visualizar pedidos e deslogar. A seguir, são apresentados os principais elementos e funcionalidades do código.
 
