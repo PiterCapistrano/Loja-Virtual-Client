@@ -249,7 +249,7 @@ Este arquivo implementa a funcionalidade de uma tela de detalhes de produto em u
 
 ### Configuração do Botão "Finalizar Pedido"
 - O botão `btFinalizarPedido` possui um `OnClickListener` que verifica se um tamanho de calçado foi selecionado:
-  - `RadioButton`s são usados para representar os tamanhos 38, 39, 40, 41 e 42.
+  - `RadioButtons` são usados para representar os tamanhos 38, 39, 40, 41 e 42.
   - Se nenhum tamanho for selecionado, exibe um `Snackbar` com uma mensagem de erro.
 - Caso um tamanho seja selecionado, a tela de pagamento é iniciada.
   - O `Intent` criado passa os detalhes do produto (nome, preço, tamanho) para a próxima atividade (`Pagamento`).
