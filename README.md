@@ -212,3 +212,50 @@ Este método gerencia as ações do usuário ao selecionar itens do menu:
 ## Resumo
 
 A classe `Home` implementa a tela inicial de um aplicativo Android, configurando uma interface baseada em grade para exibir produtos. Ela também gerencia a navegação entre diferentes funcionalidades, como login, perfil e pedidos, além de lidar com o gerenciamento de sessão do usuário.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Detalhes do Código - `DetalhesProduto`
+
+Este arquivo implementa a funcionalidade de uma tela de detalhes de produto em um aplicativo Android. A tela exibe informações do produto, como imagem, nome e preço, e permite ao usuário selecionar o tamanho de um calçado antes de finalizar a compra.
+
+## Estrutura do Código
+
+### Pacote e Imports
+- O código está localizado no pacote `com.pitercapistrano.applojavirtualclient.activities.DetalhesProduto`.
+- Diversas bibliotecas são importadas para funcionalidades específicas:
+  - `Intent`, `Color`, `View`, `Bundle` para manipulação de UI e navegação entre atividades.
+  - `Glide` para carregar imagens na interface.
+  - `Snackbar` para exibir mensagens de feedback ao usuário.
+  - Outros imports para configuração de visuais e manipulação de insets.
+
+### Classe `DetalhesProduto`
+- `DetalhesProduto` é uma subclasse de `AppCompatActivity`, o que a torna uma atividade Android.
+- A classe utiliza `ActivityDetalhesProdutoBinding` para acessar os elementos de UI através de View Binding.
+
+#### Variáveis
+- `binding`: Variável para manipular os elementos do layout.
+- `tamanho_calcado`: Armazena o tamanho de calçado selecionado pelo usuário.
+
+### Método `onCreate`
+- Chamado quando a atividade é criada.
+- Configura a exibição em tela cheia (Edge-to-Edge).
+- Infla o layout usando `ActivityDetalhesProdutoBinding` e define o conteúdo da tela.
+- Ajusta os insets para as barras de sistema e define a cor da barra de status como preta.
+
+#### Recebimento de Dados via `Intent`
+- Obtém os dados do produto, como `foto`, `nome` e `preco`, passados pela tela anterior.
+- Carrega a imagem do produto usando a biblioteca `Glide` e exibe o nome e preço nos respectivos campos.
+
+### Configuração do Botão "Finalizar Pedido"
+- O botão `btFinalizarPedido` possui um `OnClickListener` que verifica se um tamanho de calçado foi selecionado:
+  - `RadioButton`s são usados para representar os tamanhos 38, 39, 40, 41 e 42.
+  - Se nenhum tamanho for selecionado, exibe um `Snackbar` com uma mensagem de erro.
+- Caso um tamanho seja selecionado, a tela de pagamento é iniciada.
+  - O `Intent` criado passa os detalhes do produto (nome, preço, tamanho) para a próxima atividade (`Pagamento`).
+
+### Considerações
+- A funcionalidade de seleção de calçado e navegação para a tela de pagamento estão implementadas de forma intuitiva e com feedback adequado para o usuário.
+- A configuração de UI e manipulação de insets garantem que o layout seja exibido corretamente em dispositivos com diferentes tamanhos de tela.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
