@@ -113,6 +113,8 @@ Este método gerencia as ações do usuário ao selecionar itens do menu:
 - **`pedidos`**: Chama o método `irTelaPedidos` para iniciar a atividade de pedidos.
 - **`sair`**: Chama o método `deslogar` para encerrar a sessão do usuário.
 
+  ![app/src/main/res/drawable/deslogin.jpg](app/src/main/res/drawable/deslogin.jpg)
+
 ### Funções Auxiliares
 - **`deslogar`**: Desconecta o usuário do Firebase, redireciona para a tela de login e exibe uma mensagem de sucesso.
 - **`irTelaPedidos`**: Inicia a atividade de pedidos.
