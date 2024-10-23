@@ -68,6 +68,93 @@ Este código implementa uma interface de login robusta, permitindo autenticaçã
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+# Descrição do Código: `FormCadastro`
+
+O arquivo `FormCadastro.kt` contém a implementação de uma atividade Android para cadastro de usuários em um aplicativo de loja virtual. Esta atividade permite ao usuário preencher informações, selecionar uma foto de perfil e criar uma conta autenticada usando o Firebase Authentication. O código também integra o Firebase Storage e Firestore para salvar dados do usuário.
+
+![app/src/main/res/drawable/cadastro01.jpg](app/src/main/res/drawable/cadastro01.jpg)
+
+## Estrutura do Código
+
+### Importações
+
+O código importa diversas bibliotecas e classes necessárias para o funcionamento da aplicação:
+
+- **Android**: Importa classes para manipulação de UI (`View`, `Toast`, `InputMethodManager`), cores (`Color`), logs (`Log`) e gerenciamento de atividades (`Intent`, `ActivityResultLauncher`).
+- **Firebase**: Utiliza o Firebase Authentication para autenticação de usuários, Firestore para armazenamento de dados e Storage para upload de imagens.
+- **Google Material**: Para exibir mensagens com `Snackbar`.
+- **Outras**: Inclui classes para manipulação de URIs (`Uri`) e geração de identificadores únicos (`UUID`).
+
+### Variáveis e Propriedades
+
+- `binding`: Utilizado para vincular o layout XML à atividade com o uso do `ActivityFormCadastroBinding`.
+- `mSelecionarUri`: Armazena a URI da imagem de perfil selecionada pelo usuário.
+- `usuarioId`: Armazena o ID do usuário autenticado.
+
+### Inicialização e Configuração
+
+#### `onCreate`
+
+- Configura o layout usando `ActivityFormCadastroBinding` e ajusta os insets da janela para que a interface não seja coberta pela barra de status.
+- Muda a cor da barra de status para preto (`#000000`).
+- Inicializa o banco de dados usando a classe `DB`.
+
+### Funcionalidades de Interface
+
+1. **Mostrar/Ocultar Senha**: Permite ao usuário alternar a visibilidade dos campos de senha e confirmação de senha.
+
+![app/src/main/res/drawable/cadastro06.jpg](app/src/main/res/drawable/cadastro06.jpg)
+   
+2. **Seleção de Foto**: Utiliza um `ActivityResultLauncher` para selecionar uma imagem da galeria e exibi-la no `ImageView`.
+
+![app/src/main/res/drawable/cadastro02.jpg](app/src/main/res/drawable/cadastro02.jpg)   ![app/src/main/res/drawable/cadastro03.jpg](app/src/main/res/drawable/cadastro03.jpg)
+   
+3. **Validação de Formulário**: Verifica se os campos estão preenchidos e se a senha corresponde à confirmação.
+
+![app/src/main/res/drawable/cadastro04.jpg](app/src/main/res/drawable/cadastro04.jpg)  ![app/src/main/res/drawable/cadastro07.jpg](app/src/main/res/drawable/cadastro07.jpg)
+
+4. **Cadastro de Usuário**: Caso as validações sejam bem-sucedidas, utiliza o Firebase Authentication para registrar o usuário.
+
+### Tratamento de Erros
+
+- Caso o cadastro falhe, são exibidas mensagens de erro específicas para:
+  - Senha fraca
+  - Usuário já cadastrado
+  - Falha de conexão
+  - E-mail inválido
+  - 
+  ![app/src/main/res/drawable/cadastro05.jpg](app/src/main/res/drawable/cadastro05.jpg)
+
+### Métodos Auxiliares
+
+#### `selecionarFotoGaleria()`
+
+- Inicia uma `Intent` para selecionar uma imagem da galeria.
+
+#### `salvarDadosUsuario()`
+
+- Realiza o upload da imagem para o Firebase Storage.
+- Salva as informações do usuário (nome, e-mail, URL da foto) no Firestore.
+
+### Tratamento de Upload e Salvamento
+
+- Após o upload, a URL da imagem é obtida e usada para salvar os dados do usuário no Firestore.
+- Em caso de falhas no upload ou ao salvar os dados, são exibidas mensagens de log para facilitar o diagnóstico.
+
+## Tecnologias Utilizadas
+
+- **Firebase Authentication**: Para autenticar o usuário.
+- **Firebase Storage**: Para armazenar a foto de perfil do usuário.
+- **Firebase Firestore**: Para salvar os dados do usuário.
+- **Jetpack View Binding**: Para vinculação de layout de forma segura e eficiente.
+- **Snackbar e Toast**: Para feedback visual ao usuário.
+
+## Considerações Finais
+
+O código fornece uma implementação completa para uma tela de cadastro com validação de campos, autenticação e armazenamento de dados. Ele é ideal para cenários em que é necessário realizar o cadastro de usuários com fotos de perfil.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 # Descrição do Código - Tela Inicial do Aplicativo (Home)
 
 
