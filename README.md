@@ -32,6 +32,9 @@ O código utiliza várias bibliotecas, incluindo:
 - Configura o `GoogleSignInOptions` para solicitar o ID Token e o email do usuário.
 
 ## Fluxo de Login com Email e Senha
+
+![app/src/main/res/drawable/login02.jpg](app/src/main/res/drawable/login02.jpg)
+
 1. **Validação de Campos**: Verifica se os campos de email e senha estão preenchidos.
 2. **Autenticação**: Utiliza o `FirebaseAuth` para autenticar com email e senha.
 3. **Sucesso**: Se autenticado com sucesso, exibe um diálogo de carregamento e redireciona para a tela inicial (`Home`).
@@ -60,6 +63,8 @@ As credenciais são gerenciadas com segurança usando o Firebase Authentication 
 
 ### Resumo
 Este código implementa uma interface de login robusta, permitindo autenticação por email/senha e Google, com integração ao Firebase para armazenar informações de usuário e autenticar de forma segura.
+
+![app/src/main/res/drawable/login03.jpg](app/src/main/res/drawable/login03.jpg)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
