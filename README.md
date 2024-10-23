@@ -118,6 +118,8 @@ Este método gerencia as ações do usuário ao selecionar itens do menu:
 - **`irTelaPedidos`**: Inicia a atividade de pedidos.
 - **`iniciarPerfil`**: Exibe um diálogo com informações do perfil do usuário.
 
+  ![app/src/main/res/drawable/perfil01.jpg](app/src/main/res/drawable/perfil01.jpg)
+
 ## Resumo
 
 A classe `Home` implementa a tela inicial de um aplicativo Android, configurando uma interface baseada em grade para exibir produtos. Ela também gerencia a navegação entre diferentes funcionalidades, como login, perfil e pedidos, além de lidar com o gerenciamento de sessão do usuário.
